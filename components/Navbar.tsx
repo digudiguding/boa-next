@@ -11,7 +11,8 @@ const pages = [
     ['Dashboard','/'], 
     ['Market Data Producer','mkt'], 
     ['Trade Data Producer','trade'],
-    ['Report Generator','report']
+    ['Report Generator','report'],
+    ['Input', 'input']
 ]
 //const pages : { [name: string]: [link: string];} = {};
 
