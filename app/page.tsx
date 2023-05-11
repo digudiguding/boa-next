@@ -4,6 +4,10 @@ import Layout from '../components/Layout'
 import { Box, Typography, TextField, Stack } from '@mui/material/'
 
 export default function Home() {
+
+  const fxTextValue = "Default Value";
+  const tradeTextValue = "Default Value";
+  const configTextValue = "Default Value";
   return (
     <Layout>
     <Typography variant="h2" pt={5} align={'center'} gutterBottom> 
@@ -19,7 +23,7 @@ export default function Home() {
           id="filled-multiline-static"
           label=""
           multiline
-          defaultValue="Default Value"
+          defaultValue={fxTextValue}
           variant="filled"
           disabled
 
@@ -43,7 +47,7 @@ export default function Home() {
           id="filled-multiline-static"
           label=""
           multiline
-          defaultValue="Default Value"
+          defaultValue={tradeTextValue}
           variant="filled"
           disabled
 
@@ -67,7 +71,7 @@ export default function Home() {
           id="filled-multiline-static"
           label=""
           multiline
-          defaultValue="Default Value"
+          defaultValue={configTextValue}
           variant="filled"
           disabled
 
