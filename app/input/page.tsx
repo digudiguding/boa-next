@@ -10,7 +10,7 @@ export default function InputPage() {
       <Typography variant="h2" pt={5} align={'center'} gutterBottom> 
         Input
       </Typography>
-
+      
       </Layout>
     )
   }
