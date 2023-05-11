@@ -1,13 +1,83 @@
 "use client"
 
+import { useEffect, useState } from 'react';
 import Layout from '../components/Layout'
 import { Box, Typography, TextField, Stack } from '@mui/material/'
 
 export default function Home() {
 
-  const fxTextValue = "Default Value";
-  const tradeTextValue = "Default Value";
-  const configTextValue = "Default Value";
+  var fxTextValue: string = "";
+  var tradeTextValue: string = "";
+  var configTextValue: string = "";
+
+  const [fxT, setFxT] = useState("No Data yet!");
+  const [cfT, setCfT] = useState("No Data yet!");
+  const [trT, settrT] = useState("No Data yet!");
+  const [index, setIndex] = useState(0);
+  const [data, setData] = useState([]);
+  const [fullData, setFullData] = useState<any[]>([]);
+  const oldData: any[] = [];
+
+  const callAPI = async () => {
+    try {
+        const res = await fetch(
+            `http://localhost:3000/api/dashboard`,
+            {
+                method: 'POST',
+                headers: {},
+            }
+        );
+        setFullData(await res.json());
+        console.log("Received full data");
+        console.log(index);
+    } catch (err) {
+        console.log(err);
+    }
+  };
+
+  useEffect(() => { 
+    callAPI();
+    if (index < fullData.length) { 
+      const timer = setTimeout(() => { 
+        console.log(data);
+        setData(oldData => [...oldData, fullData[index]]); 
+        
+        if (data[index].EventType == "ConfigEvent"){
+          configTextValue = configTextValue +  
+          "=======================================\n"+
+          "Event ID: " + data[index].EventID + "\n" +
+          "EventType: "+ data[index].EventType + "\n" +
+          "Config: " + JSON.stringify(data[index].Config) + "\n" +
+          "Fx: " + JSON.stringify(data[index].fx) + "\n"
+          console.log(configTextValue);
+          setCfT(configTextValue);
+        }else if (data[index].EventType == "TradeEvent") {
+          tradeTextValue += 
+          "=======================================\n"+
+          "Event ID: " + data[index].EventID + "\n" +
+          "EventType: "+ data[index].EventType + "\n" +
+          "Config: " + JSON.stringify(data[index].Config) + "\n" +
+          "Fx: " + JSON.stringify(data[index].fx) + "\n"
+          settrT(tradeTextValue);
+          console.log(tradeTextValue);
+        }else if (data[index].EventType == "FXMidEvent") {
+          fxTextValue += 
+          "=======================================\n"+
+          "Event ID: " + data[index].EventID + "\n" +
+          "EventType: "+ data[index].EventType + "\n" +
+          "Config: " + JSON.stringify(data[index].Config) + "\n" +
+          "Fx: " + JSON.stringify(data[index].fx) + "\n"
+          setFxT(fxTextValue);
+        }
+        setIndex(index + 1); 
+      }, 2500); 
+ 
+      // Clear the timeout if the component is unmounted 
+      return () => clearTimeout(timer); 
+    } 
+  }, [index]); // Re-run the effect when the 'index' state changes 
+  console.log(fxT)
+
   return (
     <Layout>
     <Typography variant="h2" pt={5} align={'center'} gutterBottom> 
@@ -22,8 +92,9 @@ export default function Home() {
         <TextField
           id="filled-multiline-static"
           label=""
+          maxRows={10}
           multiline
-          defaultValue={fxTextValue}
+          defaultValue={fxT}
           variant="filled"
           disabled
 
