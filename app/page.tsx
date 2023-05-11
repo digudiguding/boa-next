@@ -1,7 +1,15 @@
-import Image from 'next/image'
+"use client"
+
+import Layout from '../components/Layout'
+import { Typography } from '@mui/material/'
 
 export default function Home() {
   return (
-    <div>Hello</div>
+    <Layout>
+    <Typography variant="h2" pt={5} align={'center'} gutterBottom> 
+      Dashboard 
+    </Typography>
+    
+    </Layout>
   )
 }
